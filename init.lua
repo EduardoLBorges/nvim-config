@@ -487,7 +487,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      -- { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -894,7 +894,15 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'dracula'
+      vim.cmd [[
+        highlight Normal guibg=NONE
+        highlight NormalNC guibg=NONE
+        highlight EndOfBuffer guibg=NONE
+        highlight LineNr guibg=NONE
+        highlight SignColumn guibg=NONE
+        highlight VertSplit guibg=NONE
+      ]]
     end,
   },
 
@@ -977,7 +985,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -1014,3 +1022,13 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- [add] Command for open terminal in bottom
+
+vim.keymap.set('n', '<leader>tt', function()
+  vim.cmd 'botright 10split | terminal' -- Abre o terminal
+  vim.cmd 'startinsert' -- Entra no modo de inserção
+  vim.defer_fn(function()
+    vim.api.nvim_feedkeys('clear\n', 'n', false) -- Envia o comando clear
+  end, 100) -- Espera 100ms para o terminal abrir
+end, { desc = 'Abrir terminal limpo na parte inferior' })
